@@ -33,7 +33,7 @@ main = do
       [ testProperty "id"         $ avalanche32 id           ==~ 1.0
       , testProperty "murmurhash" $ avalanche32 murmurhash32 ==~ 0.0003583
       , testProperty "triple"     $ avalanche32 triple32     ==~ 0.0000010
-      , testProperty "tabulation" $ avalanche32 tabulation32 ==~ 0.0063061
+      , testProperty "tabulation" $ avalanche32 tabulation32 ==~ 0.0063062
       ]
     ]
 
@@ -206,7 +206,7 @@ size32 :: Int
 size32 = 2 ^ (20 :: Int)
 
 word32arr :: PrimArray Word32
-word32arr = primArrayFromList $ take size32 $ go (SM.mkSMGen 0xbeef) where
+word32arr = primArrayFromList $ take size32 $ hashNub $ go (SM.mkSMGen 0xbeef) where
     go g = let (w,g') = SM.nextWord64 g in fromIntegral w : go g'
 
 avalancheStep32
